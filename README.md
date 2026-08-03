@@ -12,7 +12,9 @@ Three things ship at one URL:
 | 3 | Eleventy static site generation, deployed from source |
 | Extra credit | Pagefind full-text search |
 
-**Deployed site:** see `deployed-url.json` in the repository root.
+**Deployed site:** <https://prismatic-brioche-89657d.netlify.app>
+(also in `deployed-url.json`). Netlify builds it from this repository on every
+push to `main`.
 
 ---
 
@@ -400,10 +402,11 @@ and everything else does not need any.
 
 ## Carry-forward notes
 
-- **Validation.** All eleven generated pages were checked against the Nu HTML
-  Checker with zero errors and zero warnings, including generated collection
-  pages. `styles.css` returns zero errors from the W3C CSS validator (only the
-  standard "CSS variables are not statically checked" notices).
+- **Validation.** All thirteen *deployed* pages were checked against the Nu HTML
+  Checker by URL with zero errors and zero warnings, including all three pages
+  generated from the collection template. `styles.css` returns zero errors from
+  the W3C CSS validator (only the standard "CSS variables are not statically
+  checked" notices).
 - **CSS.** HW2 shipped no real stylesheet — three lines of debug borders — so the
   responsive CSS here is authored fresh: custom-property tokens, `color-scheme`
   with a `prefers-color-scheme` override, `clamp()` fluid type, relative units
