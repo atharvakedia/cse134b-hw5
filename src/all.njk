@@ -1,0 +1,22 @@
+---
+layout: layouts/base.njk
+title: All pages
+description: A complete, browsable listing of every page on this site.
+permalink: /all/
+pagefind: false
+---
+<h1>All pages</h1>
+<p>Every page on this site, generated from the same build that produces
+  <a href="/sitemap.xml">sitemap.xml</a>. This is also the fallback for
+  <a href="/search/">search</a>, which needs JavaScript &mdash; nothing here does.</p>
+
+<ul>
+  {%- for item in collections.all %}
+  <li>
+    <a href="{{ item.url }}">{{ item.data.title }}</a>
+    {%- if item.data.description %}
+    &mdash; {{ item.data.description }}
+    {%- endif %}
+  </li>
+  {%- endfor %}
+</ul>

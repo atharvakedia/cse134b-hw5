@@ -1,0 +1,20 @@
+---
+layout: layouts/base.njk
+title: Page not found
+metaTitle: Page not found — Atharva
+description: That page does not exist. Here is where to go instead.
+permalink: /404.html
+pagefind: false
+eleventyExcludeFromCollections: true
+---
+<h1>That page doesn&rsquo;t exist</h1>
+<p>The address you followed doesn&rsquo;t match anything on this site. It may have
+  been renamed, or the link that sent you here may be out of date.</p>
+
+<p>Somewhere to go instead:</p>
+<ul>
+  {%- for item in site.nav %}
+  <li><a href="{{ item.url }}">{{ item.text }}</a></li>
+  {%- endfor %}
+  <li><a href="/all/">Every page on this site</a></li>
+</ul>
