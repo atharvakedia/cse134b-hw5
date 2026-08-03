@@ -1,0 +1,29 @@
+---
+layout: layouts/base.njk
+title: Search
+description: Full-text search across every page on this site, indexed at build time by Pagefind.
+permalink: /search/
+pagefind: false
+scripts:
+  - /js/site-search.js
+---
+<h1>Search</h1>
+<p>Searches every page on this site. The index is built at deploy time and
+  queried entirely in your browser &mdash; no query is sent to a server.</p>
+
+<noscript>
+  <p class="note">Search runs in the browser, so it needs JavaScript. With it
+    off, <a href="/all/">the full page listing</a> is browsable instead and
+    covers exactly the same content.</p>
+</noscript>
+
+<form class="search-form" role="search" action="/search/" method="get">
+  <label for="q">Search this site</label>
+  <input type="search" id="q" name="q" autocomplete="off" spellcheck="false"
+         placeholder="canvas, PostgreSQL, earthquakes…">
+  <button type="submit">Search</button>
+</form>
+
+<h2 id="results-heading">Results</h2>
+<p class="search-status" id="search-status" role="status">Type a query to search.</p>
+<ul class="search-results" id="search-results" aria-labelledby="results-heading"></ul>
