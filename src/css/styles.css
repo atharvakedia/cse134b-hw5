@@ -1,0 +1,664 @@
+/* ==========================================================================
+   Design tokens
+   Light is the default; the dark palette is a media-query override so the
+   site respects the reader's system preference with no JavaScript involved.
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+
+  --color-bg: #ffffff;
+  --color-surface: #f4f6f8;
+  --color-text: #16191d;
+  --color-muted: #4b5563;
+  --color-border: #d3d9df;
+  --color-accent: #0b57d0;
+  --color-accent-text: #ffffff;
+  --color-danger: #b3261e;
+  --color-success: #146c2e;
+
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Fluid type: scales with the viewport but stays bounded and zoomable. */
+  --size-step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+  --size-step-0: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+  --size-step-1: clamp(1.25rem, 1.18rem + 0.35vw, 1.45rem);
+  --size-step-2: clamp(1.56rem, 1.44rem + 0.6vw, 1.9rem);
+  --size-step-3: clamp(1.95rem, 1.74rem + 1vw, 2.6rem);
+
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-s: 0.75rem;
+  --space-m: 1.25rem;
+  --space-l: 2rem;
+  --space-xl: 3rem;
+
+  --radius: 0.5rem;
+  --measure: 68ch;
+  --border-thin: 1px solid var(--color-border);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #14171a;
+    --color-surface: #1e2226;
+    --color-text: #e8eaed;
+    --color-muted: #b0b7c0;
+    --color-border: #363c44;
+    --color-accent: #a8c7fa;
+    --color-accent-text: #062e6f;
+    --color-danger: #f2b8b5;
+    --color-success: #7ee2a8;
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 72rem;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+  padding-block-end: var(--space-xl);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--size-step-0);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  text-wrap: balance;
+  margin-block: var(--space-l) var(--space-s);
+}
+
+h1 {
+  font-size: var(--size-step-3);
+}
+
+h2 {
+  font-size: var(--size-step-2);
+}
+
+h3 {
+  font-size: var(--size-step-1);
+}
+
+h3 small {
+  color: var(--color-muted);
+  font-size: var(--size-step--1);
+  font-weight: normal;
+}
+
+p,
+ul,
+ol {
+  margin-block: 0 var(--space-m);
+}
+
+a {
+  color: var(--color-accent);
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+img,
+picture,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: var(--color-surface);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+/* ==========================================================================
+   Skip link and utilities
+   ========================================================================== */
+
+.skip-link {
+  position: absolute;
+  inset-block-start: var(--space-xs);
+  inset-inline-start: var(--space-xs);
+  z-index: 10;
+  padding: var(--space-xs) var(--space-m);
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Site chrome
+   ========================================================================== */
+
+body > header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s) var(--space-m);
+  padding-block: var(--space-m);
+  border-block-end: var(--border-thin);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-m);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav a {
+  display: inline-block;
+  padding-block: var(--space-2xs);
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+nav [aria-current] {
+  color: var(--color-text);
+  font-weight: 700;
+  border-block-end: 2px solid var(--color-accent);
+}
+
+main {
+  padding-block-start: var(--space-xs);
+}
+
+body > footer {
+  margin-block-start: var(--space-xl);
+  padding-block-start: var(--space-m);
+  border-block-start: var(--border-thin);
+  color: var(--color-muted);
+  font-size: var(--size-step--1);
+}
+
+body > footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+/* ==========================================================================
+   Home page
+   ========================================================================== */
+
+#hero {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-l);
+  padding-block: var(--space-m);
+}
+
+#hero > div {
+  flex: 1 1 24rem;
+  max-width: var(--measure);
+}
+
+#hero img {
+  border-radius: 50%;
+  border: 3px solid var(--color-border);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2em 0.9em;
+  border-radius: 999px;
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+  font-size: var(--size-step--1);
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+}
+
+.button-link {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-m);
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius);
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.button-link:hover {
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+}
+
+/* ==========================================================================
+   Cards and tags
+   ========================================================================== */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: var(--space-m);
+  padding: 0;
+  list-style: none;
+}
+
+.card-grid article {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-m);
+  border: var(--border-thin);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+}
+
+.card-grid img {
+  border-radius: calc(var(--radius) / 2);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.card-grid :is(h2, h3) {
+  margin-block-start: var(--space-s);
+}
+
+.card-grid a {
+  text-decoration-thickness: 1px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+
+.tag {
+  padding: 0.1em 0.6em;
+  border: var(--border-thin);
+  border-radius: 999px;
+  background-color: var(--color-bg);
+  color: var(--color-muted);
+  font-size: var(--size-step--1);
+}
+
+.summary {
+  max-width: var(--measure);
+  color: var(--color-muted);
+  font-size: var(--size-step-1);
+}
+
+/* ==========================================================================
+   Long-form content
+   ========================================================================== */
+
+main :is(p, ul, ol, h2, h3):not(.card-grid *) {
+  max-width: var(--measure);
+}
+
+.skill-list {
+  padding: 0;
+  list-style: none;
+}
+
+.skill-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs) var(--space-m);
+  margin-block-end: var(--space-xs);
+}
+
+.skill-list label {
+  flex: 0 0 12rem;
+}
+
+progress {
+  flex: 1 1 10rem;
+  max-width: 18rem;
+  block-size: 0.75rem;
+}
+
+/* ==========================================================================
+   Forms
+   Baseline validation feedback is CSS only: :user-invalid fires after the
+   reader has actually interacted, so an untouched empty field is not red.
+   ========================================================================== */
+
+form {
+  max-width: 38rem;
+}
+
+fieldset {
+  margin: 0;
+  padding: var(--space-m);
+  border: var(--border-thin);
+  border-radius: var(--radius);
+}
+
+legend {
+  padding-inline: var(--space-xs);
+  font-weight: 700;
+}
+
+.field {
+  margin-block-end: var(--space-m);
+}
+
+.field label {
+  display: block;
+  margin-block-end: var(--space-2xs);
+  font-weight: 600;
+}
+
+.hint {
+  display: block;
+  margin-block-end: var(--space-2xs);
+  color: var(--color-muted);
+  font-size: var(--size-step--1);
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  inline-size: 100%;
+  padding: var(--space-xs);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg);
+}
+
+textarea {
+  resize: vertical;
+  min-block-size: 6rem;
+}
+
+:is(input, textarea):user-invalid {
+  border-color: var(--color-danger);
+}
+
+:is(input, textarea):user-valid {
+  border-color: var(--color-success);
+}
+
+/* The error message slot. Empty by default, so it takes up no room until
+   the enhancement layer writes something into it. */
+.field-error {
+  display: block;
+  margin-block-start: var(--space-2xs);
+  color: var(--color-danger);
+  font-size: var(--size-step--1);
+  font-weight: 600;
+}
+
+.field-error:empty {
+  display: none;
+}
+
+.form-summary:not(:empty) {
+  margin-block-end: var(--space-m);
+  padding: var(--space-s) var(--space-m);
+  border-inline-start: 4px solid var(--color-danger);
+  background-color: var(--color-surface);
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+button[type="submit"],
+.quake-retry {
+  padding: var(--space-xs) var(--space-l);
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius);
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover,
+.quake-retry:hover {
+  background-color: var(--color-bg);
+  color: var(--color-accent);
+}
+
+.note {
+  padding: var(--space-s) var(--space-m);
+  border-inline-start: 4px solid var(--color-accent);
+  background-color: var(--color-surface);
+}
+
+/* ==========================================================================
+   <quake-feed>
+   The element reflects its lifecycle to data-state; all of the visual
+   difference between idle, loading, ready, empty, and error lives here
+   rather than in the script.
+   ========================================================================== */
+
+quake-feed {
+  display: block;
+  max-width: 38rem;
+  padding: var(--space-m);
+  border: var(--border-thin);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+}
+
+quake-feed p:last-child {
+  margin-block-end: 0;
+}
+
+.quake-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-muted);
+  font-size: var(--size-step--1);
+}
+
+quake-feed[data-state="error"] .quake-status {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+/* A real loading indication, not a frozen blank box. */
+quake-feed[data-state="loading"] .quake-status::before {
+  content: "";
+  inline-size: 1em;
+  block-size: 1em;
+  border: 2px solid var(--color-border);
+  border-block-start-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.quake-list {
+  margin-block: var(--space-s);
+  padding: 0;
+  list-style: none;
+}
+
+.quake-list:empty {
+  display: none;
+}
+
+.quake-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs) var(--space-s);
+  padding-block: var(--space-xs);
+  border-block-start: var(--border-thin);
+}
+
+.quake-mag {
+  flex: 0 0 3.5rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.quake-place {
+  flex: 1 1 12rem;
+}
+
+.quake-list time {
+  color: var(--color-muted);
+  font-size: var(--size-step--1);
+}
+
+.quake-attribution {
+  color: var(--color-muted);
+  font-size: var(--size-step--1);
+}
+
+.quake-retry {
+  margin-block-start: var(--space-s);
+}
+
+/* ==========================================================================
+   Search
+   ========================================================================== */
+
+.search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-block-end: var(--space-m);
+}
+
+.search-form label {
+  flex: 1 1 100%;
+  font-weight: 600;
+}
+
+.search-form input[type="search"] {
+  flex: 1 1 18rem;
+  padding: var(--space-xs);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg);
+}
+
+.search-form button {
+  padding: var(--space-xs) var(--space-l);
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius);
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.search-status {
+  color: var(--color-muted);
+  font-size: var(--size-step--1);
+}
+
+.search-results {
+  padding: 0;
+  list-style: none;
+}
+
+.search-results li {
+  padding-block: var(--space-s);
+  border-block-start: var(--border-thin);
+}
+
+.search-results h3 {
+  margin-block: 0 var(--space-2xs);
+}
+
+.search-results mark {
+  background-color: transparent;
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Motion preferences
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
