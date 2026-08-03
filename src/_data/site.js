@@ -14,7 +14,7 @@ export default {
 
   // Canonical origin. Netlify sets URL on production deploys; this is the
   // fallback used for local builds and for the sitemap.
-  url: process.env.URL || "https://cse134b-hw5.netlify.app",
+  url: process.env.URL || "https://prismatic-brioche-89657d.netlify.app",
 
   description:
     "Portfolio of Atharva, a computer science student who builds small, useful web tools end to end.",
