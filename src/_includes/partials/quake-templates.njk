@@ -1,0 +1,26 @@
+{#
+  Markup templates for <quake-feed>, authored here as real <template>
+  elements rather than built in script. The element clones these and fills
+  the clones with textContent and setAttribute, so no script in this project
+  ever assigns an HTML string.
+
+  Included on every page that uses the element.
+#}
+<template id="quake-shell-template" data-pagefind-ignore>
+  <p class="quake-status" role="status"></p>
+  <ol class="quake-list"></ol>
+  <button class="quake-retry" type="button" hidden>Try again</button>
+  <p class="quake-attribution">Data from the
+    <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php">U.S. Geological Survey</a>
+    earthquake feed.</p>
+</template>
+
+<template id="quake-item-template" data-pagefind-ignore>
+  <li>
+    <span class="quake-mag"></span>
+    <a class="quake-place"></a>
+    {# Placeholder datetime keeps the empty template valid; the script
+       always overwrites it with the quake's real timestamp. #}
+    <time datetime="1970-01-01"></time>
+  </li>
+</template>

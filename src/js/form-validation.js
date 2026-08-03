@@ -153,8 +153,8 @@ function enhance(form) {
 
   /**
    * Writes the message into the field's <output> and logs it.
-   * textContent, never innerHTML: the reader's own input ends up in some of
-   * these strings, and it must never be parsed as markup.
+   * Always textContent: the reader's own input ends up inside some of these
+   * strings, and it must never be parsed as markup.
    */
   function report(control) {
     const message = messageFor(control);

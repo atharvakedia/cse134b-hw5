@@ -1,4 +1,5 @@
 ---
+layout: layouts/project.njk
 title: StudyGroup Finder
 order: 3
 date: 2025-06-02

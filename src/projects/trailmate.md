@@ -1,4 +1,5 @@
 ---
+layout: layouts/project.njk
 title: TrailMate
 order: 1
 date: 2025-11-04

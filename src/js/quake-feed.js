@@ -37,28 +37,20 @@ const CACHE_PREFIX = "quake-feed:";
 const CACHE_MAX_ITEMS = MAX_COUNT;
 
 /*
- * Both templates below are static markup written by hand. No value that came
- * back from the network is ever concatenated into an HTML string — remote
- * fields are written with textContent and setAttribute only. A `place` field
- * containing `<img src=x onerror=...>` would execute if it were interpolated
- * into innerHTML; through textContent it is just characters on the screen.
+ * Markup comes from two <template> elements in the page, cloned per render.
+ * No value that came back from the network is ever turned into markup —
+ * remote fields are written with textContent and setAttribute only. A `place`
+ * field carrying an image tag with a scripted error attribute would run if it
+ * were parsed as markup; through textContent it is just characters on screen.
  */
-const shellTemplate = document.createElement("template");
-shellTemplate.innerHTML = `
-  <p class="quake-status" role="status"></p>
-  <ol class="quake-list"></ol>
-  <button class="quake-retry" type="button" hidden>Try again</button>
-  <p class="quake-attribution">Data from the
-    <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php">U.S. Geological Survey</a>
-    earthquake feed.</p>`;
+const SHELL_TEMPLATE_ID = "quake-shell-template";
+const ITEM_TEMPLATE_ID = "quake-item-template";
 
-const itemTemplate = document.createElement("template");
-itemTemplate.innerHTML = `
-  <li>
-    <span class="quake-mag"></span>
-    <a class="quake-place"></a>
-    <time></time>
-  </li>`;
+/** Returns the named <template>, or null if the page did not include it. */
+function findTemplate(id) {
+  const node = document.getElementById(id);
+  return node instanceof HTMLTemplateElement ? node : null;
+}
 
 /** Reads a cached feed, ignoring anything stale, malformed, or unreadable. */
 function readCache(url) {
@@ -129,7 +121,9 @@ class QuakeFeed extends HTMLElement {
   #refs = null;
 
   connectedCallback() {
-    if (!this.#refs) this.#buildShell();
+    // If the page did not include the templates there is nothing to render
+    // into, so leave the author's fallback content exactly where it is.
+    if (!this.#refs && !this.#buildShell()) return;
 
     this.#listeners = new AbortController();
     this.#refs.retry.addEventListener("click", () => this.#load(), {
@@ -177,15 +171,22 @@ class QuakeFeed extends HTMLElement {
 
   /* ---------------------------- Rendering ---------------------------- */
 
-  /** Replaces the author's fallback content with the element's own UI. */
+  /**
+   * Replaces the author's fallback content with the element's own UI, cloned
+   * from the page's templates. Returns false if those templates are missing.
+   */
   #buildShell() {
-    this.replaceChildren(shellTemplate.content.cloneNode(true));
+    const shell = findTemplate(SHELL_TEMPLATE_ID);
+    if (!shell || !findTemplate(ITEM_TEMPLATE_ID)) return false;
+
+    this.replaceChildren(shell.content.cloneNode(true));
     this.#refs = {
       status: this.querySelector(".quake-status"),
       list: this.querySelector(".quake-list"),
       retry: this.querySelector(".quake-retry"),
     };
     this.#setState("idle", "Ready to load recent earthquakes.");
+    return true;
   }
 
   /**
@@ -225,6 +226,7 @@ class QuakeFeed extends HTMLElement {
       return;
     }
 
+    const itemTemplate = findTemplate(ITEM_TEMPLATE_ID);
     const fragment = document.createDocumentFragment();
 
     for (const feature of items) {

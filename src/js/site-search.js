@@ -18,17 +18,17 @@ const results = document.querySelector("#search-results");
 const DEBOUNCE_MS = 200;
 const MAX_RESULTS = 20;
 
-/* Static markup, written here rather than assembled from search output. */
-const resultTemplate = document.createElement("template");
-resultTemplate.innerHTML = `
-  <li>
-    <h3><a></a></h3>
-    <p class="search-excerpt"></p>
-  </li>`;
+/* Authored markup, cloned per result rather than assembled from search output. */
+const RESULT_TEMPLATE_ID = "search-result-template";
+
+function findTemplate(id) {
+  const node = document.getElementById(id);
+  return node instanceof HTMLTemplateElement ? node : null;
+}
 
 /**
  * Pagefind escapes these five characters in excerpts. Decoding them by hand
- * keeps the whole render path free of innerHTML.
+ * keeps the whole render path free of markup parsing.
  */
 const ENTITIES = {
   "&amp;": "&",
@@ -45,7 +45,7 @@ function decodeEntities(text) {
 
 /**
  * Rebuilds an excerpt as text nodes and real <mark> elements instead of
- * assigning Pagefind's HTML string to innerHTML.
+ * letting Pagefind's HTML string be parsed as markup.
  */
 function renderExcerpt(container, excerpt) {
   container.replaceChildren();
@@ -113,6 +113,12 @@ async function runSearch(query) {
 
   if (hits.length === 0) {
     status.textContent = `No results for “${trimmed}”.`;
+    return;
+  }
+
+  const resultTemplate = findTemplate(RESULT_TEMPLATE_ID);
+  if (!resultTemplate) {
+    status.textContent = "Results cannot be displayed on this page.";
     return;
   }
 

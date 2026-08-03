@@ -9,7 +9,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "eleventy --serve --incremental",
-    "build": "eleventy && pagefind --site _site",
+    "build": "eleventy && pagefind --site _site && node scripts/prune-pagefind-ui.mjs",
     "clean": "rm -rf _site"
   },
   "engines": {

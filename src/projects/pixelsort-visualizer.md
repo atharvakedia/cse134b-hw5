@@ -1,4 +1,5 @@
 ---
+layout: layouts/project.njk
 title: PixelSort Visualizer
 order: 2
 date: 2025-09-18
