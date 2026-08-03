@@ -1,0 +1,29 @@
+---
+layout: layouts/base.njk
+title: Projects
+description: A list of Atharva's featured software projects, each with a full case study.
+permalink: /projects/
+---
+<h1>Projects</h1>
+<p>Three projects, in the order I&rsquo;d actually walk you through them. Each one
+  is generated from a Markdown file in <code>src/projects/</code> &mdash; this list
+  and the pages it links to come from the same source.</p>
+
+<ul class="card-grid">
+  {%- for project in collections.projects %}
+  <li>
+    <article>
+      <img src="{{ project.data.image }}" alt="{{ project.data.imageAlt }}" width="320" height="180">
+      <h2><a href="{{ project.url }}">{{ project.data.title }}</a></h2>
+      <p>{{ project.data.summary }}</p>
+      <p class="tags">
+        <span class="visually-hidden">Technologies used:</span>
+        {%- for tech in project.data.stack %}
+        <span class="tag">{{ tech }}</span>
+        {%- endfor %}
+      </p>
+      <p><a href="{{ project.url }}">View case study &rarr;</a></p>
+    </article>
+  </li>
+  {%- endfor %}
+</ul>

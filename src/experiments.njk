@@ -1,0 +1,72 @@
+---
+layout: layouts/base.njk
+title: Experiments
+description: Sandbox page demonstrating template, audio, video, and MathML markup, plus a second configuration of the quake-feed element.
+permalink: /experiments/
+scripts:
+  - /js/quake-feed.js
+---
+<h1>Experiments</h1>
+<p>A sandbox page for a few elements that don&rsquo;t belong anywhere in the actual
+  portfolio narrative: <code>&lt;template&gt;</code>, <code>&lt;audio&gt;</code>,
+  <code>&lt;video&gt;</code>, and <code>&lt;math&gt;</code>.</p>
+
+<section>
+  <h2>The same element, configured differently</h2>
+  <p>This is the identical <code>&lt;quake-feed&gt;</code> element from the home
+    page, given different attributes: significant quakes over the past week rather
+    than magnitude 2.5 and up over the past day. Nothing about the element changes
+    &mdash; only its markup.</p>
+  <quake-feed magnitude="significant" period="week" count="10">
+    <p>Significant earthquakes from the past week are loaded from the U.S. Geological
+      Survey and need JavaScript to display. The same feed is browsable at
+      <a href="https://earthquake.usgs.gov/earthquakes/map/">earthquake.usgs.gov</a>.</p>
+  </quake-feed>
+</section>
+
+<section>
+  <h2>Template</h2>
+  <p>The <code>&lt;template&gt;</code> element below is inert &mdash; its contents are
+    parsed but never rendered unless something clones them. Nothing on this page
+    does. It is the same mechanism the earthquake element above uses to build each
+    list item safely.</p>
+  <template id="card-template">
+    <article class="tpl-card">
+      <h3>Card title</h3>
+      <p>Card body text goes here.</p>
+    </article>
+  </template>
+</section>
+
+<section>
+  <h2>Audio</h2>
+  <audio controls>
+    <source src="/assets/sample-audio.mp3" type="audio/mpeg">
+    <source src="/assets/sample-audio.ogg" type="audio/ogg">
+    Your browser doesn&rsquo;t support the audio element. Here&rsquo;s a
+    <a href="/assets/sample-audio.mp3">direct link to the file</a> instead.
+  </audio>
+</section>
+
+<section>
+  <h2>Video</h2>
+  <video controls width="320" poster="/assets/video-poster.png">
+    <source src="/assets/sample-video.mp4" type="video/mp4">
+    <source src="/assets/sample-video.webm" type="video/webm">
+    Your browser doesn&rsquo;t support the video element. Here&rsquo;s a
+    <a href="/assets/sample-video.mp4">direct link to the file</a> instead.
+  </video>
+</section>
+
+<section>
+  <h2>MathML</h2>
+  <p>Mass-energy equivalence, written with native <code>&lt;math&gt;</code> markup:</p>
+  <math display="block">
+    <mi>E</mi><mo>=</mo><mi>m</mi><msup><mi>c</mi><mn>2</mn></msup>
+  </math>
+  <p>MathML has been around since the late 1990s, but Chrome didn&rsquo;t get native
+    support until <b>Chrome 109</b> in January 2023 &mdash; Firefox and Safari had it
+    for years before that. A good reminder to check
+    <a href="https://caniuse.com/mathml" target="_blank" rel="noopener">caniuse.com</a>
+    before leaning on a feature like this.</p>
+</section>

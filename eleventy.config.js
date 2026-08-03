@@ -14,6 +14,17 @@ export default function (eleventyConfig) {
   eleventyConfig.addWatchTarget("src/css/");
   eleventyConfig.addWatchTarget("src/js/");
 
+  /**
+   * Case studies, ordered explicitly by their `order` front matter rather than
+   * by filename or date. Every project page, the projects index, the home page
+   * grid, and the sitemap all read from this one collection.
+   */
+  eleventyConfig.addCollection("projects", (collectionApi) =>
+    collectionApi
+      .getFilteredByTag("projects")
+      .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)),
+  );
+
   /** ISO date (YYYY-MM-DD) for <time datetime> and sitemap <lastmod>. */
   eleventyConfig.addFilter("isoDate", (value) => {
     const date = value instanceof Date ? value : new Date(value);
