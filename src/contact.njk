@@ -1,0 +1,106 @@
+---
+layout: layouts/base.njk
+title: Contact
+description: How to get in touch with Atharva, including a contact form.
+permalink: /contact/
+scripts:
+  - /js/form-validation.js
+---
+<h1>Contact</h1>
+<p>The fastest way to reach me is email &mdash; I check it far more often than
+  anything else here. <span class="badge">Usually replies within 2 days</span></p>
+
+<section>
+  <h2>Direct</h2>
+  <ul>
+    <li>Email: <a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+    {%- for link in site.social %}
+    {%- if link.external %}
+    <li>{{ link.name }}: <a href="{{ link.url }}" target="_blank" rel="noopener">{{ link.url | replace("https://", "") }}</a></li>
+    {%- endif %}
+    {%- endfor %}
+  </ul>
+</section>
+
+<section>
+  <h2>Send a Message</h2>
+
+  {#
+    The constraints below are the whole validation story when JavaScript is
+    unavailable: the browser enforces them, blocks submission, and reports the
+    problems itself. CSS colours the borders through :user-invalid and
+    :user-valid. js/form-validation.js only replaces the wording and manages
+    focus on top of that.
+  #}
+  <form name="contact" method="post" action="/contact/success/" data-netlify="true" data-netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="contact">
+
+    <p class="visually-hidden" aria-hidden="true">
+      <label for="bot-field">Leave this field empty</label>
+      <input type="text" id="bot-field" name="bot-field" tabindex="-1" autocomplete="off">
+    </p>
+
+    {# Populated by the enhancement layer; empty and invisible without it. #}
+    <p class="form-summary" id="form-summary" role="alert"></p>
+
+    <fieldset>
+      <legend>Your message</legend>
+
+      <p class="field">
+        <label for="name">Name</label>
+        <span class="hint" id="name-hint">Letters, spaces, hyphens, apostrophes, and periods. 2&ndash;60 characters.</span>
+        <input type="text" id="name" name="name"
+               required minlength="2" maxlength="60"
+               pattern="[\p{L}\p{M}'. -]+"
+               title="Use letters, spaces, hyphens, apostrophes, or periods."
+               autocomplete="name"
+               aria-describedby="name-hint name-error">
+        <output class="field-error" id="name-error" for="name" aria-live="polite"></output>
+      </p>
+
+      <p class="field">
+        <label for="email">Email</label>
+        <span class="hint" id="email-hint">So I have somewhere to reply.</span>
+        <input type="email" id="email" name="email"
+               required maxlength="254"
+               title="Enter an address in the form name@example.com."
+               autocomplete="email"
+               aria-describedby="email-hint email-error">
+        <output class="field-error" id="email-error" for="email" aria-live="polite"></output>
+      </p>
+
+      <p class="field">
+        <label for="subject">Subject</label>
+        <span class="hint" id="subject-hint">3&ndash;100 characters.</span>
+        <input type="text" id="subject" name="subject"
+               required minlength="3" maxlength="100"
+               title="Give the message a short subject, 3 to 100 characters."
+               aria-describedby="subject-hint subject-error">
+        <output class="field-error" id="subject-error" for="subject" aria-live="polite"></output>
+      </p>
+
+      <p class="field">
+        <label for="message">Message</label>
+        <span class="hint" id="message-hint">At least 20 characters, up to 1000.</span>
+        <textarea id="message" name="message" rows="6"
+                  required minlength="20" maxlength="1000"
+                  title="Tell me a little about why you are writing, at least 20 characters."
+                  aria-describedby="message-hint message-error"></textarea>
+        <output class="field-error" id="message-error" for="message" aria-live="polite"></output>
+      </p>
+
+      {#
+        Submitted alongside the message. The enhancement layer writes a JSON
+        array of every validation error the reader ran into; with JavaScript
+        off it stays an empty array.
+      #}
+      <input type="hidden" id="form-errors" name="form-errors" value="[]">
+
+      <button type="submit">Send Message</button>
+    </fieldset>
+  </form>
+
+  <p class="note">This form posts to Netlify Forms on the deployed site. Running it
+    locally, the browser still enforces every constraint &mdash; the submission
+    just has nowhere to go.</p>
+</section>
