@@ -1,0 +1,21 @@
+# Build configuration lives in the repository, not only in the Netlify dashboard,
+# so a fresh clone deploys identically without anyone re-typing settings.
+
+[build]
+  command = "npm run build"
+  publish = "_site"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Long-cache the fingerprint-free static assets we control, but let HTML revalidate
+# so a new deploy is picked up immediately.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

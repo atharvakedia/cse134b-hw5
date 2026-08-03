@@ -1,0 +1,22 @@
+{
+  "name": "cse134b-hw5",
+  "version": "1.0.0",
+  "description": "Portfolio site built with Eleventy: progressive-enhancement form validation, a USGS earthquake web component, and Pagefind search.",
+  "license": "MIT",
+  "author": "Atharva",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "eleventy --serve --incremental",
+    "build": "eleventy && pagefind --site _site",
+    "clean": "rm -rf _site"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "pagefind": "^1.5.2"
+  }
+}

@@ -1,0 +1,24 @@
+# Build output — the host generates this from source on every push.
+_site/
+
+# Dependencies
+node_modules/
+
+# Environment / secrets (build-time and server-side only, never committed)
+.env
+.env.*
+!.env.example
+
+# Netlify local state
+.netlify/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Logs
+npm-debug.log*
+yarn-error.log*
