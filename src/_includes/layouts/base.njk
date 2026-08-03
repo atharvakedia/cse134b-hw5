@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "partials/head.njk" %}
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  {% include "partials/site-header.njk" %}
+  <main id="main"{% if pagefind == false %} data-pagefind-ignore{% else %} data-pagefind-body{% endif %}>
+    {{ content | safe }}
+  </main>
+  {% include "partials/site-footer.njk" %}
+</body>
+</html>

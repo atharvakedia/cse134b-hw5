@@ -1,0 +1,22 @@
+{#
+  The one and only footer in the source tree. Every page gets it from here.
+  data-pagefind-ignore keeps this shared chrome out of the search index so a
+  query for "GitHub" does not match all eleven pages.
+#}
+<footer data-pagefind-ignore>
+  <p>&copy; {{ site.year }} {{ site.author }}.</p>
+  <nav aria-label="Footer">
+    <ul>
+      {%- for link in site.social %}
+      <li>
+        <a href="{{ link.url }}"{% if link.external %} target="_blank" rel="noopener"{% endif %}>
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="{{ link.icon }}" fill="currentColor"></path></svg>
+          {{ link.name }}
+        </a>
+      </li>
+      {%- endfor %}
+      <li><a href="/experiments/">Experiments (dev sandbox)</a></li>
+      <li><a href="/all/">All pages</a></li>
+    </ul>
+  </nav>
+</footer>

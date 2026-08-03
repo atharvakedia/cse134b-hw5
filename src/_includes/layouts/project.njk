@@ -1,0 +1,28 @@
+---
+layout: layouts/base.njk
+---
+{#
+  The single template behind every case study. Add a Markdown file to
+  src/projects/ and a new page appears here, in the projects index, and in
+  sitemap.xml — no template edits required.
+#}
+<article>
+  <h1>{{ title }}</h1>
+  <p class="summary">{{ summary }}</p>
+
+  <p class="tags">
+    <span class="visually-hidden">Technologies used:</span>
+    {%- for tech in stack %}
+    <span class="tag">{{ tech }}</span>
+    {%- endfor %}
+  </p>
+
+  <img src="{{ image }}" alt="{{ imageAlt }}" width="640" height="360">
+
+  {{ content | safe }}
+
+  <p class="actions">
+    <a class="button-link" href="{{ repo }}" target="_blank" rel="noopener">View on GitHub</a>
+    <a href="/projects/">&#8592; All projects</a>
+  </p>
+</article>

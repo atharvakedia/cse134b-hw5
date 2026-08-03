@@ -1,0 +1,23 @@
+{#
+  Site header. Navigation state is computed here at build time:
+  an exact URL match gets aria-current="page"; a section ancestor
+  (e.g. Projects while viewing a case study) gets aria-current="true".
+#}
+<header data-pagefind-ignore>
+  <a class="logo" href="/">
+    <svg viewBox="0 0 40 40" width="32" height="32" role="img" aria-label="Site logo, letter A monogram">
+      <rect x="1" y="1" width="38" height="38" rx="8" fill="none" stroke="currentColor" stroke-width="2"></rect>
+      <text x="20" y="27" font-size="18" font-weight="bold" text-anchor="middle" fill="currentColor">A</text>
+    </svg>
+    <span>{{ site.title }}</span>
+  </a>
+  <nav aria-label="Primary">
+    <ul>
+      {%- for item in site.nav %}
+      {%- set isExact = page.url == item.url %}
+      {%- set isSection = item.url != "/" and page.url.startsWith(item.url) and not isExact %}
+      <li><a href="{{ item.url }}"{% if isExact %} aria-current="page"{% elif isSection %} aria-current="true"{% endif %}>{{ item.text }}</a></li>
+      {%- endfor %}
+    </ul>
+  </nav>
+</header>
